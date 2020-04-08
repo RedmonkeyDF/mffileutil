@@ -1,6 +1,9 @@
 package mfmodfileutil
 
-import "os"
+import (
+	"os"
+	"path/filepath"
+)
 
 func DirectoryExists(adirpath string) (bool, error) {
 
@@ -39,4 +42,40 @@ func RegularfileExists(afilepath string) (bool, error) {
 	}
 
 	return fi.Mode().IsRegular(), nil
+}
+
+func RemoveDirectoryWithContents(adirpath string) error {
+
+	d, erropen := os.Open(adirpath)
+
+	if erropen != nil {
+
+		return erropen
+	}
+
+	defer func() {
+
+		errdclose := d.Close()
+		if errdclose != nil {
+
+			panic(errdclose)
+		}
+	}()
+
+	dirnames, errrddr := d.Readdirnames(-1)
+	if errrddr != nil {
+
+		return errrddr
+	}
+
+	for _, dirname := range dirnames {
+
+		errrm := os.RemoveAll(filepath.Join(adirpath, dirname))
+		if errrm != nil  {
+
+			return errrm
+		}
+	}
+
+	return os.RemoveAll(adirpath)
 }
