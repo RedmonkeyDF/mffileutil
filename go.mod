@@ -1,3 +1,3 @@
-module github.com/RedmonkeyDF/mfmodfileutil
+module github.com/RedmonkeyDF/mffileutil
 
 go 1.13
