@@ -1,4 +1,4 @@
-package mfmodfileutil
+package mffileutil
 
 import (
 	"os"
